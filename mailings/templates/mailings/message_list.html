@@ -1,0 +1,58 @@
+{% extends 'catalog/base.html' %}
+{#{% load my_tags %}#}
+{% block content %}
+    {#    {% include 'catalog/includes/inc_product.html' %}#}
+{#    {% include 'catalog/includes/inc_catalog.html' %}#}
+    <div class="container">
+        <div class="row text-center" style="display: flex;flex-wrap: wrap;align-items: stretch;">
+{#            <div class="col-12 mb-3">#}
+{#                <a href="{% url 'catalog:product_create' %}">Добавить</a>#}
+{#            </div>#}
+                <div class="container">
+                    <div class="col-12 text-center mb-3">
+                        {% if page_obj.has_other_pages %}
+                            {% if page_obj.has_previous %}
+                                <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                            {% endif %}
+                            {% if page_obj.has_next %}
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Далее</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% for object in object_list %}
+                <div class="col-4">
+                    <div class="card-group mb-4">
+                        <div class="card" style="display: flex; border-color:#7777ff;  flex-direction:column;
+                        justify-content: space-between;   height: auto;">
+                            <p><img src="{% mediapath object.image %}" alt="продукты" class="img-fluid"
+                                    style="width:150px; height: 150px;"></p>
+                            <div class="card-body">
+                                <h6 class="card-title">{{ object.name_product|truncatechars:25 }}</h6>
+                                <h4 class="card-title pricing-card-title">{{ object.price }} ₽</h4>
+                            </div>
+                            <a href="/one_product/{{ object.pk }}" type="button"
+                               class="card-link">Детальная информация</a>
+                            <br>
+                            <h6 class="my-0 font-weight-normal mb-3">{{ object.name }}
+                                {% if object.active_version_number %}
+                                    <p>Активная версия: {{ object.active_version_number }}</p>
+                                    <p>Статус: {{ object.active_version_name }}</p>
+                                {% endif %}
+                            </h6>
+{#                        {% if perms.catalog.change_product %}#}
+                        <div class="card-footer">
+                                <a class="btn btn-link"
+                                   href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>
+                                <a class="btn btn-link" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
+                                <small class="text-muted"></small>
+                            </div>
+{#                        {% endif %}#}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
