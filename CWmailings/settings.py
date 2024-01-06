@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mailings'
+    'mailings',
+    'django_apscheduler',
+    'users',
+    'blog'
 ]
 
 MIDDLEWARE = [
@@ -57,8 +60,7 @@ ROOT_URLCONF = 'CWmailings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-			,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,10 +146,10 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
-# AUTH_USER_MODEL = 'users.User'
-# LOGOUT_REDIRECT_URL = '/'
-# LOGIN_REDIRECT_URL = '/'
-# LOGIN_URL = 'users:login'
+AUTH_USER_MODEL = 'users.User'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'users:login'
 
 CASH_ENABLE = os.getenv('CACHE_ENABLED') == '1'
 CACHES = {
@@ -156,3 +158,5 @@ CACHES = {
         "LOCATION": os.getenv("CACHE_LOCATION")
     }
 }
+
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

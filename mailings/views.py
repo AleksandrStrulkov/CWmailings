@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from mailings.forms import MessageForm, ClientForm
+from mailings.forms import MessageForm, ClientForm, MailingForm
 from mailings.models import MailingOptions, Client, Message
 
 
@@ -13,16 +13,16 @@ class MailingTemplateView(TemplateView):
         context_data = super().get_context_data(**kwargs)
         context_data['all_mailings'] = MailingOptions.objects.all().count()
         context_data['active_mailings'] = MailingOptions.objects.filter(is_active=True).count()
-        context_data['unique_clients_list'] = Client.objects.all().count()
+        context_data['unique_clients_list'] = Client.objects.all().distinct('client_email').count()
 
         return context_data
 
 
-class MailingListView(ListView):
+class MessageListView(ListView):
     model = Message
 
 
-class MailingDetailView(DetailView):
+class MessageDetailView(DetailView):
     model = Message
 
     def get_object(self, queryset=None):
@@ -40,7 +40,7 @@ class MailingDetailView(DetailView):
         return context_data
 
 
-class MailingCreateView(CreateView):
+class MessageCreateView(CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mailings:home')
@@ -80,3 +80,25 @@ class ClientDeleteView(DeleteView):
 
 class ClientDetailView(DetailView):
     model = Client
+
+
+class MailingOptionsCreateView(CreateView):
+    model = MailingOptions
+    form_class = MailingForm
+    success_url = reverse_lazy('mailings:message_list')
+
+
+class MailingOptionsDetailView(DetailView):
+    model = MailingOptions
+    form_class = MailingForm
+    success_url = reverse_lazy('mailings:message_list')
+
+
+class MailingOptionsListView(ListView):
+    model = MailingOptions
+
+
+class MailingOptionsDeleteView(DeleteView):
+    model = MailingOptions
+    success_url = reverse_lazy('mailings:options_list')
+

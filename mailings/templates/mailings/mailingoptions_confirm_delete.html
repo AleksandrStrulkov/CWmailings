@@ -4,21 +4,19 @@
     <div class="container">
         <div class="col-12">
             <div class="row">
-                <div class="col-6">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <form method="post">
                                 {% csrf_token %}
 {#                                <p>Хотите удалить "{{ object.name_product }}"?</p>#}
-                                <h5 class="card-title pricing-card-title">Хотите удалить?</h5>
-                                <p>---{{ object.title }}---</p>
+                                <h5 class="card-title pricing-card-title">Хотите отменить рассылку?</h5>
+                                <p>---{{ object.message }}---</p>
                                 <button type="submit" class="btn btn-danger">Подтвердить</button>
-                                <a href="{% url 'mailings:home' %}" class="btn btn-warning">Отмена</a>
+                                <a href="{% url 'mailings:options_list' %}" class="btn btn-warning">Отмена</a>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 {% endblock %}

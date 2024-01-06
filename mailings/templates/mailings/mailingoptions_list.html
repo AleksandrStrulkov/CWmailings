@@ -36,24 +36,27 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>E-mail</th>
-                                <th>Имя</th>
-                                <th>Фамилия</th>
-                                <th>Редактировать</th>
-                                <th>Удалить</th>
+                                <th>Тема</th>
+                                <th>Дата начала</th>
+                                <th>Периодичность</th>
+                                <th>Статус</th>
+                                <th>Клиентов</th>
+                                <th>Активность</th>
+                                <th>Отменить</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for object in object_list %}
                             <tr>
                                 <td>{{ object.id }}</td>
-                                <td>{{ object.client_email }}</td>
-                                <td>{{ object.first_name }}</td>
-                                <td>{{ object.last_name }}</td>
+                                <td>{{ object.message }}</td>
+                                <td>{{ object.start_time }}</td>
+                                <td>{{ object.send_period }}</td>
+                                <td>{{ object.send_status }}</td>
+                                <td>{{ object.clients}}</td>
+                                <td>{{ object.is_active}}</td>
                                 <td><a class="btn btn-link"
-                                       href="{% url 'mailings:client_update' object.pk %}">ok</a></td>
-                                <td><a class="btn btn-link"
-                                       href="{% url 'mailings:client_delete' object.pk %}">ok</a></td>
+                                       href="{% url 'mailings:options_delete' object.pk %}">ok</a></td>
                             </tr>
                              {% endfor %}
                             </tbody>

@@ -23,7 +23,6 @@ class LoginView(BaseLoginView):
 	template_name = 'users/login.html'
 
 
-
 class LogoutView(BaseLogoutView):
 	pass
 
@@ -75,4 +74,4 @@ def generate_new_password(request):
 	request.user.set_password(new_password)
 	request.user.save()
 	send_new_password(request.user.email, new_password)
-	return redirect(reverse('catalog:home'))
+	return redirect(reverse('mailings:home'))

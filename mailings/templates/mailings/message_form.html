@@ -1,4 +1,63 @@
 {% extends 'mailings/base.html' %}
 {#{% load my_tags %}#}
 {% block content %}
+    <div class="container">
+        <form method="post" action="" class="row form-floating" enctype="multipart/form-data">
+            <div class="row text-start">
+                <div class="col-md-12">
+                    <div class="card mb-4 box-shadow" Style="border-color:#7777ff">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                {% if object %}
+                                    Редактировать
+                                {% else %}
+                                    Создать
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">
+                                {% if object %}
+                                    Сохранить
+                                {% else %}
+                                    Добавить
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+{#                {% if perms.catalog.change_product %}#}
+{#                    <div class="col-6">#}
+{#                        <div class="card mb-4 box-shadow" Style="border-color:#7777ff">#}
+{#                            <div class="card-header">#}
+{#                                <h4 class="my-0 font-weight-normal">Версия</h4>#}
+{#                            </div>#}
+{#                            {{ formset.management_form }}#}
+{##}
+{#                            <div class="card-body">#}
+{#                                {{ formset.management_form }}#}
+{#                                {% for form in formset.forms %}#}
+{#                                    {{ form.as_p }}#}
+{#                                    {% if forloop.revcounter0 != 0 %}#}
+{#                                        <hr>#}
+{#                                    {% endif %}#}
+{#                                {% endfor %}#}
+{#                                {% if formset.non_form_errors %}#}
+{#                                    <div class="text-center">#}
+{#                                        <div class="text-primary-emphasis bg-info-subtle border border-danger rounded-2">#}
+{#                                            {% for error in formset.non_form_errors %}#}
+{#                                                <h6>{{ error }}</h6>#}
+{#                                            {% endfor %}#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endif %}#}
+            </div>
+        </form>
+    </div>
 {% endblock %}

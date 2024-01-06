@@ -18,10 +18,10 @@ class StyleFormMixin:
 				field.widget.attrs['class'] = 'form-control'
 
 
-class SendOptionsForm(StyleFormMixin, forms.ModelForm):
+class MailingForm(StyleFormMixin, forms.ModelForm):
 	class Meta:
 		model = MailingOptions
-		exclude = ('send_status',)
+		fields = '__all__'
 
 
 class ClientForm(StyleFormMixin, forms.ModelForm):

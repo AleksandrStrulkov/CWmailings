@@ -6,7 +6,7 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class Client(models.Model):
-    client_email = models.EmailField(unique=True, verbose_name='Email')
+    client_email = models.EmailField(unique=False, verbose_name='Email')
     first_name = models.CharField(max_length=255, verbose_name='Имя', **NULLABLE)
     last_name = models.CharField(max_length=255, verbose_name='Фамилия', **NULLABLE)
     comment = models.TextField(verbose_name="комментарий", **NULLABLE)
@@ -45,8 +45,8 @@ class MailingOptions(models.Model):
             ('Завершена', 'Завершена')
     )
     message = models.ForeignKey(Message, verbose_name='Сообщение', on_delete=models.CASCADE, default=None)
-
-    start_time = models.TimeField(verbose_name='Время рассылки', **NULLABLE)
+    start_time = models.DateTimeField(verbose_name='Дата начала рассылки', default=None)
+    finish_time = models.DateTimeField(verbose_name='Дата окончания рассылки', default=None)
     creation_date = models.DateTimeField(verbose_name='Дата и время создания', auto_now=True)
     send_period = models.CharField(max_length=20, verbose_name='Периодичность',
                                    choices=PERIOD_MAILING)
@@ -60,16 +60,17 @@ class MailingOptions(models.Model):
         return f"{self.message} ({self.start_time})"
 
     class Meta:
-        verbose_name = 'Настройка'
-        verbose_name_plural = 'Настройки'
+        verbose_name = 'Рассылка'
+        verbose_name_plural = 'Рассылки'
         ordering = ['pk']
 
 
 class Logs(models.Model):
     last_attempt_time = models.DateTimeField(verbose_name='Последняя отправка рассылки', auto_now=True)
-    status = models.CharField(max_length=6, verbose_name='Статус отправки рассылки')
+    status = models.CharField(max_length=20, verbose_name='Статус отправки рассылки')
     mailing = models.ForeignKey(MailingOptions, verbose_name='Рассылка', on_delete=models.CASCADE)
     error_message = models.TextField(verbose_name='Сообщение об ошибке', **NULLABLE)
+    client = models.ForeignKey(Client, verbose_name='Клиент', on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return (f'{self.last_attempt_time} '

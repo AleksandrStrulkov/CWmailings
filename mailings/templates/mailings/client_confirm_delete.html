@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'mailings/base.html' %}
+{% block content %}
+{#    {% include 'catalog/includes/inc_catalog.html' %}#}
+    <div class="container">
+        <div class="col-12">
+            <div class="row">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <form method="post">
+                                {% csrf_token %}
+{#                                <p>Хотите удалить "{{ object.name_product }}"?</p>#}
+                                <h5 class="card-title pricing-card-title">Хотите удалить?</h5>
+                                <p>---{{ object.client_email }}---</p>
+                                <button type="submit" class="btn btn-danger">Подтвердить</button>
+                                <a href="{% url 'mailings:client_list' %}" class="btn btn-warning">Отмена</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
