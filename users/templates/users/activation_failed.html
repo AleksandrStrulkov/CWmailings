@@ -1,0 +1,21 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Ошибка при активации{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">Активация</div>
+                <div class="card-body">
+                    <p>Активация пользователя с таким именем прошла неудачно.</p>
+                    <p><a href=" {%  url 'users:register' %}">Зарегистрироваться повторно</a></p>
+                </div>
+                <div class="card-footer">Упс!</div>
+            </div>
+        </div>
+    </div>
+
+    {#<h2>Регистрация</h2>#}
+    {#    <p>Регистрация пользователя завершена.</p>#}
+    {#    <p>На адрес электронной почты, указанный пользователем, выслано письмо для активации.</p>#}
+{% endblock %}
