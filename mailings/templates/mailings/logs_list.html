@@ -35,25 +35,23 @@
                             {#<table class="table table-striped">#}
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>E-mail</th>
-                                <th>Имя</th>
-                                <th>Фамилия</th>
-                                <th>Редактировать</th>
-                                <th>Удалить</th>
+                                <th>Дата отправки</th>
+                                <th>Статус</th>
+                                <th>Рассылка</th>
+                                <th>Ошибка</th>
+                                <th>Хозяин</th>
+                                <th>Почта</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for object in object_list %}
                             <tr>
-                                <td>{{ object.id }}</td>
-                                <td>{{ object.client_email }}</td>
-                                <td>{{ object.first_name }}</td>
-                                <td>{{ object.last_name }}</td>
-                                <td><a class="btn btn-link"
-                                       href="{% url 'mailings:client_update' object.pk %}">ok</a></td>
-                                <td><a class="btn btn-link"
-                                       href="{% url 'mailings:client_delete' object.pk %}">ok</a></td>
+                                <td>{{ object.last_attempt_time }}</td>
+                                <td>{{ object.status }}</td>
+                                <td>{{ object.mailing }}</td>
+                                <td>{{ object.error_message }}</td>
+                                <td>{{ object.client }}</td>
+                                <td>{{ object.send_email }}</td>
                             </tr>
                              {% endfor %}
                             </tbody>

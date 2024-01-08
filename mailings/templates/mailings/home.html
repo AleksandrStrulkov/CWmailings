@@ -1,25 +1,122 @@
 {% extends 'mailings/base.html' %}
-{#{% load my_tags %}#}
+{% load my_tags %}
 {% block content %}
-    {#    {% include 'catalog/includes/inc_product.html' %}#}
-    {#    {% include 'catalog/includes/inc_catalog.html' %}#}
-    <div class="container">
-    <div class="row text-center" style="display: flex;flex-wrap: wrap;align-items: stretch;">
-        <div class="col-12">
-            <div class="card-group mb-6">
-                <div class="card" style="display: flex; border-color:#7777ff;  flex-direction:column;
-                        justify-content: space-between;   height: auto;">
-                    <div class="card-body">
-                        <h6 class="card-title">Количество рассылок: {{ all_mailings }}</h6>
-                        <h6 class="card-title">------------------------------</h6>
-                        <h6 class="card-title">Количество активных рассылок: {{ active_mailings }}</h6>
-                        <h6 class="card-title">------------------------------</h6>
-                        <h6 class="card-title">Количество уникальных клиентов: {{ unique_clients_list }}</h6>
-                    </div>
+    <style>
+        .image-container {
+            position: relative;
+        }
 
+        .image-container img {
+            width: 200px;
+            height: auto;
+        }
+
+        .image-container::before {
+            /* content: "Изображение не загрузилось"; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+
+    {% include 'mailings/includes/inc_mailings.html' %}
+    <div class="container">
+        <div class="row text-center" style="display: flex;flex-wrap: wrap;align-items: stretch;">
+            <div class="col-12 mb-3">
+                <div class="card-group mb-6">
+                    <div class="card bg-light" style="display: flex; border-color:#7777ff;  flex-direction:column;
+                        justify-content: space-between;   height: auto;">
+                        <div class="card-body">
+                            <h6 class="card-title">Количество рассылок: {{ all_mailings }}</h6>
+                            <h6 class="card-title">------------------------------</h6>
+                            <h6 class="card-title">Количество активных рассылок: {{ active_mailings }}</h6>
+                            <h6 class="card-title">------------------------------</h6>
+                            <h6 class="card-title">Количество уникальных клиентов: {{ unique_clients_list }}</h6>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+
+            {% for object in random_blog %}
+                <div class="col-4">
+                    <div class="card-group mb-4">
+                        <div class="card bg-light" style="display: flex; border-color:#7575fb;  flex-direction:column;
+                        justify-content: space-between;   height: auto;">
+                            <p><img class="img-fluid rounded-bottom-pill" src="{% mediapath object.image %}"
+                                    style="width:200px; height: 200px;"
+                                    alt="Image" onerror="this
+                                .src='https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg'">
+                            </p>
+                            <div class="card-body">
+                                <h6 class="card-title text-start">{{ object.title|truncatechars:20 }}</h6>
+                                <p class="card-text text-start">{{ object.body|truncatechars:50 }}</p>
+                                <p class="card-text text-start"><small>Опубликовано: {{ object.updated_at }}</small></p>
+                            </div>
+                            {#{% if perms.catalog.change_product %}#}
+                            <div class="card-footer">
+                                <a class="btn btn-link" href="/blog/view/{{ object.slug }}">Смотреть</a>
+                                <small class="text-muted"></small>
+                                <br/>
+                                <p class="card-text text-center">Просмотров: {{ object.views_count }}</p>
+                            </div>
+                            {#{% endif %}#}
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                {#                <div class="card text-dark bg-dark mb-3">#}
+                {#                                <img class="img-fluid" src="{% mediapath object.image %}" alt="Image" onerror="this#}
+                {#                                .src='https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg'">#}
+                {##}
+                {#                    <div class="card-img-overlay">#}
+                {#                        <h5 class="card-title">{{ object.title }}</h5>#}
+                {#                        <p class="card-text">{{ object.body|truncatechars:50 }}</p>#}
+                {#                        <p class="card-text"><small>{{ object.updated_at }}</small></p>#}
+                {#                        <a href="/blog/view/{{ object.slug }}" type="button" class="card-link">Детальная информация</a>#}
+                {#                    </div>#}
+                {#                </div>#}
+
+
+                {#                <div class="col-12">#}
+                {#                    <div class="card-group mb-4">#}
+                {#                        <div class="card" style="display: flex; border-color:#7777ff;  flex-direction:column;#}
+                {#                        justify-content: space-between;   height: auto;">#}
+                {#                            <p><img src="{% mediapath object.image %}" alt="Нет фото" class="img-fluid"#}
+                {#                                    style="width:150px; height: 150px;"></p>#}
+                {#                            <div class="card-body">#}
+                {#                                <h6 class="card-title">{{ object.title|truncatechars:25 }}</h6>#}
+                {#                                <h4 class="card-title pricing-card-title">{{ object.body|truncatechars:25 }}</h4>#}
+                {#                            </div>#}
+                {#                            <a href="/one_product/{{ object.pk }}" type="button"#}
+                {#                               class="card-link">Детальная информация</a>#}
+                {#                            <br>#}
+                {#                        {% if perms.catalog.change_product %}#}
+                {#                        <div class="card-footer">#}
+                {#                                <a class="btn btn-link"#}
+                {#                                   href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>#}
+                {#                                <a class="btn btn-link" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>#}
+                {#                                <small class="text-muted"></small>#}
+                {#                            </div>#}
+                {#                        {% endif %}#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                </div>#}
+            {% endfor %}
+
         </div>
     </div>
-    </div>
+
+
 {% endblock %}

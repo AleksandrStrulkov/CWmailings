@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from mailings.models import NULLABLE
+NULLABLE = {'null': True, 'blank': True}
 
 
 class User(AbstractUser):

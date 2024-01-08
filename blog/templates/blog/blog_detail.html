@@ -1,0 +1,25 @@
+{% extends 'mailings/base.html' %}
+{% block content %}
+    {% include 'mailings/includes/inc_mailings.html' %}
+    {% load my_tags %}
+    {% load cache %}
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+                    <div class="card-body">
+                        <h5 class="card-text">{{ object.title }}</h5>
+                        <p class="card-text">{{ object.body }}</p>
+                    </div>
+            </div>
+            <div class="col-7">
+{#                {% cache 30 blog_images %}#}
+                    <div class="card-body">
+                        <img class="img-fluid" src="{% mediapath object.image %}" width="400"
+                                    alt="Image" onerror="this
+                                .src='https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg'">
+                    </div>
+{#                {% endcache %}#}
+            </div>
+        </div>
+    </div>
+{% endblock %}

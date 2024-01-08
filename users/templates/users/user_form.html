@@ -12,7 +12,8 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="p-2 btn btn-outline-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-outline-light btn-md mx-2"
+                           style="background-color: #7777ff;">Сохранить</button>
                     </form>
                 </div>
                 <div class="card-footer">
