@@ -1,22 +1,21 @@
 {% extends 'mailings/base.html' %}
 {% block content %}
-{#    {% include 'catalog/includes/inc_catalog.html' %}#}
+{#    {% include 'mailings/includes/inc_mailings.html' %}#}
     <div class="container">
         <div class="col-12">
             <div class="row">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <form method="post">
-                                {% csrf_token %}
-{#                                <p>Хотите удалить "{{ object.name_product }}"?</p>#}
-                                <h5 class="card-title pricing-card-title">Хотите отменить рассылку?</h5>
-                                <p>---{{ object.message }}---</p>
-                                <button type="submit" class="btn btn-danger">Подтвердить</button>
-                                <a href="{% url 'mailings:options_list' %}" class="btn btn-warning">Отмена</a>
-                            </form>
-                        </div>
+                <div class="card">
+                    <div class="card-body text-center">
+                        <form method="post">
+                            {% csrf_token %}
+                            <h5 class="card-title pricing-card-title">Хотите отменить рассылку?</h5>
+                            <p>---{{ object.message }}---</p>
+                            <button type="submit" class="btn btn-danger">Подтвердить</button>
+                            <a href="{% url 'mailings:options_list' %}" class="btn btn-warning">Отмена</a>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}

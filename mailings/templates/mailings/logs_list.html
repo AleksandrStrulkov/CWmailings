@@ -1,38 +1,13 @@
 {% extends 'mailings/base.html' %}
-{#{% load my_tags %}#}
 {% block content %}
-    {% include 'mailings/includes/inc_mailings.html' %}
-{#    {% include 'catalog/includes/inc_catalog.html' %}#}
-<div class="container">
-    <div class="row text-center" style="display: flex;flex-wrap: wrap;align-items: stretch;">
-        {#            <div class="col-12 mb-3">#}
-        {#                <a href="{% url 'catalog:product_create' %}">Добавить</a>#}
-        {#            </div>#}
-        {#                <div class="container">#}
-        {#                    <div class="col-12 text-center mb-3">#}
-        {#                        {% if page_obj.has_other_pages %}#}
-        {#                            {% if page_obj.has_previous %}#}
-        {#                                <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">Назад</a>#}
-        {#                            {% endif %}#}
-        {#                            {% if page_obj.has_next %}#}
-        {#                                &nbsp;&nbsp;|&nbsp;&nbsp;#}
-        {#                                <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Далее</a>#}
-        {#                            {% endif %}#}
-        {#                        {% endif %}#}
-        {#                    </div>#}
-        {#                </div>#}
-
-        <div class="col-12">
-            <div class="card-group mb-4">
-                <div class="card" style="display: flex; border-color:#7777ff;  flex-direction:column;
+{#    {% include 'mailings/includes/inc_mailings.html' %}#}
+    <div class="container">
+        <div class="row text-center" style="display: flex;flex-wrap: wrap;align-items: stretch;">
+            <div class="col-12">
+                <div class="card-group mb-4">
+                    <div class="card" style="display: flex; border-color:#7777ff;  flex-direction:column;
                         justify-content: space-between;   height: auto;">
-
-                        {#                            <p><img src="{% mediapath object.image %}" alt="продукты" class="img-fluid"#}
-                        {#                                    style="width:150px; height: 150px;"></p>#}
                         <table class="table">
-                            {#<table class="table table-bordered">#}
-                            {#<table class="table table-borderless">#}
-                            {#<table class="table table-striped">#}
                             <thead>
                             <tr>
                                 <th>Дата отправки</th>
@@ -45,45 +20,20 @@
                             </thead>
                             <tbody>
                             {% for object in object_list %}
-                            <tr>
-                                <td>{{ object.last_attempt_time }}</td>
-                                <td>{{ object.status }}</td>
-                                <td>{{ object.mailing }}</td>
-                                <td>{{ object.error_message }}</td>
-                                <td>{{ object.client }}</td>
-                                <td>{{ object.send_email }}</td>
-                            </tr>
-                             {% endfor %}
+                                <tr>
+                                    <td>{{ object.last_attempt_time }}</td>
+                                    <td>{{ object.status }}</td>
+                                    <td>{{ object.mailing }}</td>
+                                    <td>{{ object.error_message }}</td>
+                                    <td>{{ object.client }}</td>
+                                    <td>{{ object.send_email }}</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
-
-                    {#                            <div class="card-body">#}
-                    {#                                <h6 class="card-title">Email: {{ object.client_email }}</h6>#}
-                    {#                                <h6 class="card-title pricing-card-title">Имя: {{ object.first_name }}</h6>#}
-                    {#                                <h6 class="card-title pricing-card-title">Фамилия:{{ object.last_name }}</h6>#}
-                    {#                                <h6 class="card-title pricing-card-title">Комментарий: {{ object.comment }}</h6>#}
-                    {#                            </div>#}
-                    {#                            <a href="/one_product/{{ object.pk }}" type="button"#}
-                    {#                               class="card-link">Детальная информация</a>#}
-                    {#                            <br>#}
-                    {#                            <h6 class="my-0 font-weight-normal mb-3">{{ object.name }}#}
-                    {#                                {% if object.active_version_number %}#}
-                    {#                                    <p>Активная версия: {{ object.active_version_number }}</p>#}
-                    {#                                    <p>Статус: {{ object.active_version_name }}</p>#}
-                    {#                                {% endif %}#}
-                    {#                            </h6>#}
-                    {#                        {% if perms.catalog.change_product %}#}
-                    {#                            <div class="card-footer">#}
-                    {#                                <a class="btn btn-link"#}
-                    {#                                   href="{% url 'mailings:client_update' object.pk %}">Редактировать</a>#}
-                    {#                                <a class="btn btn-link" href="{% url 'mailings:client_delete' object.pk %}">Удалить</a>#}
-                    {#                                <a class="btn btn-link" href="">Отправить</a>#}
-                    {#                                <small class="text-muted"></small>#}
-                    {#                            </div>#}
-                    {#                        {% endif %}#}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

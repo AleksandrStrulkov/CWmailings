@@ -1,15 +1,15 @@
 {% extends 'mailings/base.html' %}
 {% load my_tags %}
 {% block content %}
-    {#    {% include 'catalog/includes/inc_catalog.html' %}#}
+{#    {% include 'mailings/includes/inc_mailings.html' %}#}
     <div class="container">
         {% if perms.blog.add_blog %}
             <div class="col-12 mb-5">
-                <a class="btn btn-outline-primary" href="{% url "blog:create" %}">Добавить материал</a>
+                <a class="btn btn-outline-light btn-md mx-2" style="background-color: #7777ff;"
+                   href="{% url "blog:create" %}">Добавить материал</a>
             </div>
         {% endif %}
         {% for object in object_list %}
-
             <div class="card mb-5 bg-light" style="max-width: 820px;">
                 <div class="row gap-0">
                     <div class="col-md-4">
@@ -28,8 +28,10 @@
                                     {% if perms.blog.change_blog %}
                                         <a href="{% url 'blog:edit' object.slug %}" type="button"
                                            class="mx-2 btn btn-sw btn-outline-warning">Редактировать</a>
-{#                                    {% endif %}#}
-{#                                    {% if user.is_superuser %}#}
+                                    {% endif %}
+                                    {#                                    {% endif %}#}
+                                    {#                                    {% if user.is_superuser %}#}
+                                    {% if perms.blog.delete_blog %}
                                         <a href="{% url 'blog:delete' object.slug %}" type="button"
                                            class="mx-2 btn btn-sw btn-outline-danger">Удалить</a>
                                     {% endif %}
@@ -39,36 +41,6 @@
                     </div>
                 </div>
             </div>
-
-            {#            <div class="row text-center">#}
-            {#                <div class="row my-2">#}
-            {#                    <div class="col-7 md">#}
-            {#                        <div class="card shadow-sm">#}
-            {#                            <div class="card-body">#}
-            {#                                <p class="card_text">{{ object|title }}</p>#}
-            {#                                <p><img class="img-fluid rounded-start" src="{% mediapath object.image %}"#}
-            {#                                        style="width:150px; height: 150px;"#}
-            {#                                        alt="Image" onerror="this#}
-            {#                                .src='https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg'"></p>#}
-            {#                                <div class="d-flex justify-content-between align-items-center">#}
-            {#                                    <div class="btn-group">#}
-            {#                                        <a href="{% url 'blog:view' object.slug %}"#}
-            {#                                           class="mx-2 btn btn-sw btn-outline-primary">View</a>#}
-            {#                                        {% if perms.blog.change_blog %}#}
-            {#                                            <a href="{% url 'blog:edit' object.slug %}" type="button"#}
-            {#                                               class="mx-2 btn btn-sw btn-outline-warning">Edit</a>#}
-            {#                                        {% endif %}#}
-            {#                                        {% if user.is_superuser %}#}
-            {#                                            <a href="{% url 'blog:delete' object.slug %}" type="button"#}
-            {#                                               class="mx-2 btn btn-sw btn-outline-danger">Delete</a>#}
-            {#                                        {% endif %}#}
-            {#                                    </div>#}
-            {#                                </div>#}
-            {#                            </div>#}
-            {#                        </div>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
         {% endfor %}
     </div>
 {% endblock %}

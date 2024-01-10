@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
-
+from django.contrib.auth.forms import UserChangeForm
 from django import forms
 from django.utils import timezone
 
 from mailings.models import Client, Message, MailingOptions
+from users.models import User
 
 
 class StyleFormMixin:
@@ -46,3 +47,10 @@ class MailingOptionsForm(StyleFormMixin, forms.ModelForm):
 	class Meta:
 		model = MailingOptions
 		exclude = ('next_try', 'options_owner', 'send_status',)
+
+
+class UserActiveForm(StyleFormMixin, forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ('is_active',)
+

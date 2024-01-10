@@ -1,5 +1,4 @@
 {% extends 'mailings/base.html' %}
-{% load my_is_tags %}
 {% block content %}
 {#    {% include 'mailings/includes/inc_mailings.html' %}#}
     <div class="container">
@@ -12,32 +11,25 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Тема</th>
-                                <th>Дата начала</th>
-                                <th>Периодичность</th>
-                                <th>Статус</th>
-                                <th>Клиентов</th>
+                                <th>Email</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Телефон</th>
                                 <th>Активность</th>
-                                <th>Редактировать</th>
-                                <th>Удалить</th>
+                                <th>Заблокировать</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for object in object_list %}
                                 <tr>
                                     <td>{{ object.id }}</td>
-                                    <td>{{ object.message }}</td>
-                                    <td>{{ object.start_time }}</td>
-                                    <td>{{ object.send_period }}</td>
-                                    <td>{{ object.send_status }}</td>
-                                    <td>{{ object.clients }}</td>
+                                    <td>{{ object.email }}</td>
+                                    <td>{{ object.first_name }}</td>
+                                    <td>{{ object.last_name }}</td>
+                                    <td>{{ object.phone }}</td>
                                     <td>{{ object.is_active }}</td>
                                     <td><a class="btn btn-link"
-                                           href="{% url 'mailings:options_update' object.pk %}">ok</a></td>
-                                    {% if not request.user|is_group:"manager" %}
-                                        <td><a class="btn btn-link"
-                                               href="{% url 'mailings:options_delete' object.pk %}">ok</a></td>
-                                    {% endif %}
+                                           href="{% url 'mailings:user_update' object.pk %}">ok</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
