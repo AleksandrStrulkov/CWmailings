@@ -22,6 +22,12 @@ class BlogCreateView(CreateView):
 			'title': "Добавить публикацию",
 	}
 
+	def dispatch(self, request, *args, **kwargs):
+		if not request.user.is_authenticated:
+			return redirect('users:register')
+		else:
+			return super().dispatch(request, *args, **kwargs)
+
 	def form_valid(self, form):
 		if form.is_valid():
 			new_mat = form.save()
@@ -31,7 +37,7 @@ class BlogCreateView(CreateView):
 		return super().form_valid(form)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(PermissionRequiredMixin, UpdateView):
 	model = Blog
 	permission_required = 'blog.change_blog'
 	form_class = BlogForm
@@ -53,9 +59,10 @@ class BlogUpdateView(UpdateView):
 
 
 # class BlogDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(PermissionRequiredMixin, DeleteView):
 	model = Blog
 	success_url = reverse_lazy('blog:list')
+	permission_required = 'blog.delete_blog'
 	extra_context = {
 			'title': "Удаление публикации",
 	}

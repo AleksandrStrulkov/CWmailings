@@ -3,13 +3,15 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
 from blog.models import Blog
-from mailings.forms import MessageForm, ClientForm, MailingForm, MailingManagerForm, MailingOptionsForm
+from mailings.forms import MessageForm, ClientForm, MailingForm, MailingManagerForm, MailingOptionsForm, UserActiveForm
 from mailings.models import MailingOptions, Client, Message, Logs
 import random
 from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, \
     PermissionRequiredMixin
+
+from users.models import User
 
 
 # class MailingTemplateView(TemplateView):
@@ -57,6 +59,7 @@ class MessageListView(ListView):
     extra_context = {
             'title': "Все письма",
     }
+
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(message_owner=self.request.user)
@@ -79,6 +82,16 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mailings:message_list')
+    extra_context = {
+            'title': "Создать письмо для рассылки",
+    }
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('users:register')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
 
     def form_valid(self, form):
         self.object = form.save()
@@ -92,6 +105,10 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mailings:message_list')
+    extra_context = {
+            'title': "Редактирование письма для рассылки",
+    }
+
 
     def form_valid(self, form):
         self.object = form.save()
@@ -104,6 +121,9 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
 class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     success_url = reverse_lazy('mailings:message_list')
+    extra_context = {
+            'title': "Удаление письма для рассылки",
+    }
 
 
 class ClientListView(LoginRequiredMixin, ListView):
@@ -122,6 +142,15 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailings:client_list')
+    extra_context = {
+            'title': "Создание клиента",
+    }
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('users:register')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.object = form.save()
@@ -135,6 +164,9 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailings:client_list')
+    extra_context = {
+            'title': "Редактирование клиента",
+    }
 
     def form_valid(self, form):
         self.object = form.save()
@@ -147,6 +179,9 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
 class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailings:client_list')
+    extra_context = {
+            'title': "Удаление клиента",
+    }
 
 
 class ClientDetailView(DetailView):
@@ -156,7 +191,11 @@ class ClientDetailView(DetailView):
 class MailingOptionsCreateView(LoginRequiredMixin, CreateView):
     model = MailingOptions
     form_class = MailingForm
+    # permission_required = 'mailing.add_MailingOptions'
     success_url = reverse_lazy('mailings:message_list')
+    extra_context = {
+            'title': "Создание рассылки",
+    }
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -208,6 +247,9 @@ class MailingOptionsUpdateView(LoginRequiredMixin, UpdateView):
     model = MailingOptions
     form_class = MailingForm
     success_url = reverse_lazy('mailings:options_list')
+    extra_context = {
+            'title': "Редактирование рассылки",
+    }
 
     def form_valid(self, form):
         send_params = form.save()
@@ -229,8 +271,35 @@ class MailingOptionsUpdateView(LoginRequiredMixin, UpdateView):
 
 class LogsListView(LoginRequiredMixin, ListView):
     model = Logs
+    extra_context = {
+            'title': "Все ошибки",
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(client=self.request.user)
         return queryset
+
+
+class UsersListView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'mailings/user_list.html'
+    extra_context = {
+            'title': "Все пользователи",
+    }
+
+
+class UserOptionsUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserActiveForm
+    success_url = reverse_lazy('mailings:user_list')
+    extra_context = {
+            'title': "Блокировка пользователя",
+    }
+
+    def form_valid(self, form):
+        send_params = form.save()
+        self.model.is_active = send_params.is_active
+
+        send_params.save()
+        return super().form_valid(form)
