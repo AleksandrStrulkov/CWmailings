@@ -13,5 +13,4 @@ urlpatterns = [
 		path('view/<slug:slug>', cache_page(60)(BlogDetailView.as_view()), name='view'),
 		path('edit/<slug:slug>', BlogUpdateView.as_view(), name='edit'),
 		path('delete/<slug:slug>', BlogDeleteView.as_view(), name='delete'),
-		# path('activity/<slug:slug>', toggle_activity, name='toggle_activity'),
 ]

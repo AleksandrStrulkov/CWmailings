@@ -14,9 +14,6 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, 
 from users.models import User
 
 
-# class MailingTemplateView(TemplateView):
-
-
 class MailingTemplateView(TemplateView):
     template_name = 'mailings/home.html'
     extra_context = {
@@ -65,17 +62,11 @@ class MessageListView(ListView):
         queryset = queryset.filter(message_owner=self.request.user)
         return queryset
 
-
-class MessageDetailView(DetailView):
-    model = Message
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-
-        message_item = Message.objects.get(pk=self.kwargs.get('pk'))
-        context_data['title'] = f'{message_item.title}'
-
-        return context_data
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('users:register')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
@@ -96,6 +87,7 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
         self.object.message_owner = self.request.user
+        self.object.message = self.request.user
         self.object.save()
 
         return super().form_valid(form)
@@ -217,12 +209,6 @@ class MailingOptionsCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class MailingOptionsDetailView(LoginRequiredMixin, DetailView):
-    model = MailingOptions
-    form_class = MailingForm
-    success_url = reverse_lazy('mailings:message_list')
-
-
 class MailingOptionsListView(LoginRequiredMixin, ListView):
     model = MailingOptions
     extra_context = {
@@ -252,10 +238,13 @@ class MailingOptionsUpdateView(LoginRequiredMixin, UpdateView):
     }
 
     def form_valid(self, form):
+        self.object = form.save()
         send_params = form.save()
         self.model.send_status = send_params.send_status
+        self.object.mailing_owner = self.request.user
 
         send_params.save()
+        self.object.save()
         return super().form_valid(form)
 
     def get_queryset(self, *args, **kwargs):

@@ -57,10 +57,10 @@
                                 Письма</a>
                             </li>
                             {% if not request.user|is_group:"manager" %}
-{#                            {% if perms.mailing.add_MailingOptions %}#}
-                            <li><a class="dropdown-item" href="{% url 'mailings:options_create' %}">Создать
-                                рассылку</a>
-                            </li>
+                                {#                            {% if perms.mailing.add_MailingOptions %}#}
+                                <li><a class="dropdown-item" href="{% url 'mailings:options_create' %}">Создать
+                                    рассылку</a>
+                                </li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'mailings:options_list' %}">Рассылки</a>
                             </li>
@@ -196,7 +196,6 @@
         </div>
     </footer>
 </div>
-
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -53,4 +53,3 @@ class UserActiveForm(StyleFormMixin, forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ('is_active',)
-

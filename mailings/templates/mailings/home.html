@@ -1,7 +1,6 @@
 {% extends 'mailings/base.html' %}
 {% load my_tags %}
 {% block content %}
-{#    {% include 'mailings/includes/inc_mailings.html' %}#}
     <div class="container">
         <div class="row text-center" style="display: flex;flex-wrap: wrap;align-items: stretch;">
             <div class="col-12 mb-3">
@@ -23,7 +22,7 @@
                     <div class="card-group mb-4">
                         <div class="card bg-light" style="display: flex; border-color:#7575fb;  flex-direction:column;
                         justify-content: space-between;   height: auto;">
-                            <p><img class="img-fluid rounded-bottom-pill" src="{% mediapath object.image %}"
+                            <p><img class="img-fluid rounded-bottom" src="{% mediapath object.image %}"
                                     style="width:200px; height: 200px;"
                                     alt="Image" onerror="this
                                 .src='https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg'">

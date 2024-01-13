@@ -95,7 +95,6 @@ class BlogDetailView(DetailView):
 		self.object.save()
 		return self.object
 
-
 # def toggle_activity(request, slug):
 # 	blog_item = get_object_or_404(Blog, slug=slug)
 # 	if blog_item.is_published:

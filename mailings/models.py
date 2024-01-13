@@ -49,6 +49,7 @@ class Message(models.Model):
 class MailingOptions(models.Model):
     PERIOD_MAILING = (
             (None, 'Выберите периодичность рассылки'),
+            ('Ежеминутно', 'Ежеминутно'),
             ('Ежедневно', 'Ежедневно'),
             ('Еженедельно', 'Еженедельно'),
             ('Ежемесячно', 'Ежемесячно')
@@ -62,6 +63,7 @@ class MailingOptions(models.Model):
     message = models.ForeignKey(Message, verbose_name='Сообщение', on_delete=models.CASCADE, default=None)
     start_time = models.DateTimeField(verbose_name='Дата начала рассылки', default=None)
     finish_time = models.DateTimeField(verbose_name='Дата окончания рассылки', default=None)
+
     creation_date = models.DateTimeField(verbose_name='Дата и время создания', auto_now=True)
     send_period = models.CharField(max_length=20, verbose_name='Периодичность',
                                    choices=PERIOD_MAILING)
@@ -69,7 +71,7 @@ class MailingOptions(models.Model):
                                    choices=STATUS_MAILING, default='Создана')
     clients = models.ManyToManyField(Client, verbose_name='Клиенты')
     is_active = models.BooleanField(default=True, verbose_name='Активность')
-    next_attempt = models.DateTimeField(verbose_name='Дата последней отправки', **NULLABLE)
+    next_attempt = models.DateTimeField(verbose_name='Дата следующей отправки', **NULLABLE)
     mailing_owner = models.ForeignKey(get_user_model(), verbose_name='Пользователь',
                             on_delete=models.SET_NULL, **NULLABLE)
 

@@ -64,7 +64,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 	success_url = reverse_lazy('users:profile')
 	form_class = UserProfileForm
 
-	def get_object(self, queryset=None): # Избавляемся от входящего параметра pk
+	def get_object(self, queryset=None):
 		return self.request.user
 
 

@@ -10,7 +10,7 @@
                         justify-content: space-between;   height: auto;">
                             <div class="card-body">
                                 <h5 class="card-title">Тема:{{ object.title }}</h5>
-                                <h6 class="card-title pricing-card-title">{{ object.content }}</h6>
+                                <h6 class="card-title pricing-card-title">{{ object.content|truncatechars:50}}</h6>
                             </div>
                             <div class="card-footer">
                                 <a class="btn btn-link"

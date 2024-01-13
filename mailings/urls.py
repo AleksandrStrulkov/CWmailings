@@ -4,16 +4,14 @@ from django.views.decorators.cache import cache_page, never_cache
 
 from mailings.views import MailingTemplateView, MessageUpdateView, MessageDeleteView, ClientListView, \
 	ClientUpdateView, ClientCreateView, ClientDeleteView, ClientDetailView, MessageListView, MessageCreateView, \
-	MessageDetailView, MailingOptionsCreateView, MailingOptionsDetailView, MailingOptionsListView, \
-	MailingOptionsDeleteView, MailingOptionsUpdateView, LogsListView
+	MailingOptionsCreateView, MailingOptionsListView, \
+	MailingOptionsDeleteView, MailingOptionsUpdateView, LogsListView, UsersListView, UserOptionsUpdateView
 
 app_name = MailingsConfig.name
-
 
 urlpatterns = [
 		path('', (MailingTemplateView.as_view()), name='home'),
 		path('all_message/', cache_page(30)(MessageListView.as_view()), name='message_list'),
-		path('message/detail', MessageDetailView.as_view(), name='message_detail'),
 		path('message/create', MessageCreateView.as_view(), name='message_create'),
 		path('message/update/<int:pk>', MessageUpdateView.as_view(), name='message_update'),
 		path('message/delete/<int:pk>', MessageDeleteView.as_view(), name='message_delete'),
@@ -25,10 +23,11 @@ urlpatterns = [
 		path('client/detail', ClientDetailView.as_view(), name='client_detail'),
 
 		path('options/create', MailingOptionsCreateView.as_view(), name='options_create'),
-		path('options/detail', MailingOptionsDetailView.as_view(), name='options_detail'),
 		path('options/', cache_page(30)(MailingOptionsListView.as_view()), name='options_list'),
 		path('options/delete/<int:pk>', MailingOptionsDeleteView.as_view(), name='options_delete'),
 		path('options/update/<int:pk>', MailingOptionsUpdateView.as_view(), name='options_update'),
 
 		path('options/logs/', LogsListView.as_view(), name='options_logs'),
+		path('user_list/', UsersListView.as_view(), name='user_list'),
+		path('user/update/<int:pk>', UserOptionsUpdateView.as_view(), name='user_update'),
 ]
