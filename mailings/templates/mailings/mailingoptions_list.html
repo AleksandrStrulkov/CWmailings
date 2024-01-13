@@ -33,7 +33,8 @@
                                     <td>{{ object.is_active }}</td>
                                     <td><a class="btn btn-link"
                                            href="{% url 'mailings:options_update' object.pk %}">ok</a></td>
-                                    {% if not request.user|is_group:"manager" %}
+{#                                    {% if not request.user|is_group:"manager" %}#}
+                                    {% if not perms.mailings.set_active %}
                                         <td><a class="btn btn-link"
                                                href="{% url 'mailings:options_delete' object.pk %}">ok</a></td>
                                     {% endif %}

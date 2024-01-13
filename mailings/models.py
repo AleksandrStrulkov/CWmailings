@@ -82,6 +82,12 @@ class MailingOptions(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
         ordering = ['pk']
+        permissions = [
+                (
+                        'set_active',
+                        'Может отключать рассылки'
+                )
+        ]
 
     @classmethod
     def truncate_table_restart_id(cls):
