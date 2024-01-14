@@ -23,13 +23,13 @@
                         <div class="card bg-light" style="display: flex; border-color:#7575fb;  flex-direction:column;
                         justify-content: space-between;   height: auto;">
                             <p><img class="img-fluid rounded-bottom" src="{% mediapath object.image %}"
-                                    style="width:200px; height: 200px;"
+                                    style="width:320px; height: 200px;"
                                     alt="Image" onerror="this
                                 .src='https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg'">
                             </p>
                             <div class="card-body">
-                                <h6 class="card-title text-start">{{ object.title|truncatechars:20 }}</h6>
-                                <p class="card-text text-start">{{ object.body|truncatechars:50 }}</p>
+                                <h6 class="card-title text-start">{{ object.title|truncatechars:40 }}</h6>
+                                <p class="card-text text-start">{{ object.body|truncatechars:100 }}</p>
                                 <p class="card-text text-start"><small>Опубликовано: {{ object.updated_at }}</small></p>
                             </div>
                             {#{% if perms.catalog.change_product %}#}
