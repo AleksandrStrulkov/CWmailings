@@ -20,35 +20,15 @@ class MailingTemplateView(TemplateView):
             'title': "Главная страница",
     }
 
-    def get_context_data(self, *args, **kwargs):
-        user = self.request.user
-        if self.request.method == 'GET':
-            if settings.CASH_ENABLE:
-                key = f'cached_statistics'
-                cached_context = cache.get(key)
-                if cached_context is None:
-                    context = super().get_context_data(**kwargs)
-                    context['all_mailings'] = MailingOptions.objects.all().count()
-                    context['active_mailings'] = MailingOptions.objects.all().filter(is_active=True).count()
-                    context['unique_clients_list'] = Client.objects.all().distinct('client_email').count()
-                    main_page_context = {
-                            'all_mailings': context['all_mailings'],
-                            'active_mailings': context['active_mailings'],
-                            'unique_clients_list': context['unique_clients_list']}
-                    cache.set(key, main_page_context)
-                    all_blog = Blog.objects.all()
-                    random_blog = random.sample(list(all_blog), 3)
-                    context['random_blog'] = random_blog
-                    return context
-                else:
-                    context = super().get_context_data(**kwargs)
-                    context['all_mailings'] = cached_context['all_mailings']
-                    context['active_mailings'] = cached_context['active_mailings']
-                    context['unique_clients_list'] = cached_context['unique_clients_list']
-                    all_blog = Blog.objects.all()
-                    random_blog = random.sample(list(all_blog), 3)
-                    context['random_blog'] = random_blog
-                return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_mailings'] = MailingOptions.objects.all().count()
+        context['active_mailings'] = MailingOptions.objects.all().filter(is_active=True).count()
+        context['unique_clients_list'] = Client.objects.all().distinct('client_email').count()
+        blog_list = list(Blog.objects.all())
+        random.shuffle(blog_list)
+        context['random_blog'] = blog_list[:3]
+        return context
 
 
 class MessageListView(ListView):

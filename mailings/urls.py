@@ -10,7 +10,7 @@ from mailings.views import MailingTemplateView, MessageUpdateView, MessageDelete
 app_name = MailingsConfig.name
 
 urlpatterns = [
-		path('', (MailingTemplateView.as_view()), name='home'),
+		path('', MailingTemplateView.as_view(), name='home'),
 		path('all_message/', cache_page(30)(MessageListView.as_view()), name='message_list'),
 		path('message/create', MessageCreateView.as_view(), name='message_create'),
 		path('message/update/<int:pk>', MessageUpdateView.as_view(), name='message_update'),

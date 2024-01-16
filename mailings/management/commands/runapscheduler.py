@@ -28,7 +28,7 @@ class Command(BaseCommand):
 
 		scheduler.add_job(
 				my_job,
-				trigger=CronTrigger(minute="*/40"),  # Каждые 50 секунд
+				trigger=CronTrigger(second="*/10"),  # Каждые 50 секунд
 				id="my_job",  # Идентификатор, присвоенный каждому заданию, ДОЛЖЕН быть уникальным.
 				max_instances=1,
 				replace_existing=True,
